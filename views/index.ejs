@@ -1,0 +1,20 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Welcome to better reads!</h1>
+
+<h2><%= books %> </h2>
+ 
+<% for (var i = 0; i < books.length; i++) { %> 
+  <div>
+  <img src= <%="https://covers.openlibrary.org/b/isbn/" + JSON.parse(books[i].book_isbn) + "-M.jpg" %> >
+  <h3><%= JSON.stringify(books[i].title)%></h3>
+  <h3><%= JSON.stringify(books[i].author)%></h3>
+  <h3><%= JSON.stringify(books[i].notes)%></h3>
+  <h3><%= JSON.stringify(books[i].rating)%></h3>
+  </div>
+  <%}%>
+
+<!--TODO: Format the data to present well using bootstrap or tailwind--
+TODO: Add Edit and Delete Buttons for each post
+TODO: Add sorting links-->>
+<%- include("partials/footer.ejs") %>
