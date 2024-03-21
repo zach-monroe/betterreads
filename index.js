@@ -13,7 +13,7 @@ const db = new pg.Client({
   host: "localhost",
   database: "books",
   user: "postgres",
-  password: "your password",
+  password: "poop",
   port: 5432,
 });
 
@@ -40,17 +40,6 @@ app.post("/add", async (req, res) => {
   const author_fname = req.body.author_fname;
   const author_lname = req.body.author_lname;
   const rating = req.body.rating;
-  let id;
-  try {
-    const readResult = await db.query(
-      "INSERT INTO read (author_lname, title, notes, rating, author_fname) VALUES ($1, $2, $3, $4, $5) RETURNING (id)",
-      [author_lname, title, notes, rating, author_fname],
-    );
-
-    id = readResult.rows[0].id;
-  } catch (err) {
-    console.log(err.body);
-  }
 
   //API request for getting the ISBN
   const urlTitle = title.toLowerCase().replace(/ /g, "+");
@@ -62,22 +51,38 @@ app.post("/add", async (req, res) => {
       urlAuthor,
   );
   const isbnResult = isbnGet.data;
-  const isbn = JSON.parse(isbnResult.docs[0].isbn[0]);
-  try {
-    await db.query("INSERT INTO isbn (book_id, book_isbn) VALUES ($1, $2)", [
-      id,
-      isbn,
-    ]);
-  } catch (err) {
-    console.log(err.body);
+
+  if (
+    isbnResult.docs &&
+    isbnResult.docs.length > 0 &&
+    isbnResult.docs[0].isbn
+  ) {
+    const isbn = JSON.parse(isbnResult.docs[0].isbn[0]);
+    try {
+      const readResult = await db.query(
+        "INSERT INTO read (author_lname, title, notes, rating, author_fname) VALUES ($1, $2, $3, $4, $5) RETURNING (id)",
+        [author_lname, title, notes, rating, author_fname],
+      );
+
+      const id = readResult.rows[0].id;
+
+      const isbnPost = await db.query(
+        "INSERT INTO isbn (book_id, book_isbn) VALUES ($1, $2)",
+        [id, isbn],
+      );
+    } catch (err) {
+      console.log(err.body);
+    }
+    res.redirect("/");
+  } else {
+    res.redirect("/new");
   }
-  res.redirect("/");
 
   // FIX: Edge case - user accidentally inputs data that yields no result from search API.
   // should stop the user from posting to the database and leave their input in the form.
   // Should inform them the book they want to log does not exist.
   // Maybe reconfigure so it searches for the isbn BEFORE adding to "read" database - preventing unneccessary insertion and deletion.
-});
+}); //EDGE CASE is handled BUT would be ideal if it redirected to /new with the user's already entered data.
 
 app.listen(port, () => {
   console.log(`Server is live at port ${port}`);
