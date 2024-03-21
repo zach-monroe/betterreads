@@ -1,31 +1,24 @@
-
 <%- include("partials/header.ejs") %>
 <div>
-<form action="/add" method="POST">
- <input type="text" name="author_fname" placeholder="John">
-    <label for="author_fname">Author First Name</label>
- <input type="text" name="author_lname" placeholder="Smith">
-    <label for="author_lname">Author Last Name</label>
- <input type="text" name="title" placeholder="A Fantastic Book">
-    <label for="title">Book Title</label>
- <textarea rows="5" cols="33" name="notes">Put your notes here!</textarea>
-<div class="rating">
-  <input type="radio" id="star5" name="rating" value="5" />
-  <label for="star5">5</label>
-  <input type="radio" id="star4" name="rating" value="4" />
-  <label for="star4">4</label>
-  <input type="radio" id="star3" name="rating" value="3" />
-  <label for="star3">3</label>
-  <input type="radio" id="star2" name="rating" value="2" />
-  <label for="star2">2</label>
-  <input type="radio" id="star1" name="rating" value="1" />
-  <label for="star1">1</label>
-</div>
-  <div>
-  <label for="rating">Rating</label>
-</div>
- <input type="submit" name="submit">
-  
-</form>
+    <form action="/add" method="POST">
+        <input type="text" name="author_fname" placeholder="John" value=<%= locals.books ? locals.books[0].author_fname : '' %>>
+        <label for="author_fname">Author First Name</label>
+        <input type="text" name="author_lname" placeholder="Smith" value=<%= locals.books ? locals.books[0].author_lname : '' %>>
+        <label for="author_lname">Author Last Name</label>
+        <input type="text" name="title" placeholder="A Fantastic Book" value=<%= locals.books ? locals.books[0].title : '' %>>
+        <label for="title">Book Title</label>
+        <textarea rows="5" cols="33" name="notes"><%= locals.books ? locals.books[0].notes : 'Put your notes here!' %></textarea>
+        <div class="rating">
+            <% for (let i = 5; i >= 1; i--) { %>
+                <input type="radio" id="star<%= i %>" name="rating" value="<%= i %>" <%= locals.books && locals.books[0].rating == i ? 'checked' : '' %>>
+                <label for="star<%= i %>"><%= i %></label>
+            <% } %>
+        </div>
+        <div>
+            <label for="rating">Rating</label>
+        </div>
+        <input type="submit" name="submit">
+    </form>
 </div>
 <%- include("partials/footer.ejs") %>
+

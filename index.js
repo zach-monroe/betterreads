@@ -84,6 +84,18 @@ app.post("/add", async (req, res) => {
   // Maybe reconfigure so it searches for the isbn BEFORE adding to "read" database - preventing unneccessary insertion and deletion.
 }); //EDGE CASE is handled BUT would be ideal if it redirected to /new with the user's already entered data.
 
+// NOTE: to fully optimize - "/add" functions should be broken up into individual functions.
+//
+
+app.post("/edit", async (req, res) => {
+  const id = req.body.bookId;
+  const result = await db.query(
+    "SELECT * FROM read INNER JOIN isbn ON read.id = isbn.book_id WHERE read.id = ($1)",
+    [id],
+  );
+  const books = result.rows;
+  res.render("new.ejs", { books: books });
+});
 app.listen(port, () => {
   console.log(`Server is live at port ${port}`);
 });
