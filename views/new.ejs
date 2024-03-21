@@ -20,5 +20,9 @@
         <input type="submit" name="submit">
     </form>
 </div>
+
+<% if (locals.error) {%>
+<h2><%= error%></h2>
+<% } %>
 <%- include("partials/footer.ejs") %>
 

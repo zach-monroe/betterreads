@@ -76,14 +76,12 @@ app.post("/add", async (req, res) => {
     }
     res.redirect("/");
   } else {
-    res.redirect("/new");
+    res.render("new.ejs", {
+      books: [req.body],
+      error: "Cannot find your entry!",
+    });
   }
-
-  // FIX: Edge case - user accidentally inputs data that yields no result from search API.
-  // should stop the user from posting to the database and leave their input in the form.
-  // Should inform them the book they want to log does not exist.
-  // Maybe reconfigure so it searches for the isbn BEFORE adding to "read" database - preventing unneccessary insertion and deletion.
-}); //EDGE CASE is handled BUT would be ideal if it redirected to /new with the user's already entered data.
+});
 
 // NOTE: to fully optimize - "/add" functions should be broken up into individual functions.
 //
@@ -95,13 +93,26 @@ app.post("/edit", async (req, res) => {
     [id],
   );
   const books = result.rows;
+  console.log(books);
   res.render("new.ejs", { books: books });
 });
+
+app.post("/delete", async (req, res) => {
+  const id = req.body.bookId;
+  try {
+    await db.query(
+      "DELETE FROM read USING isbn WHERE id = isbn.book_id AND id = ($1)",
+      [id],
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  res.redirect("/");
+});
+
 app.listen(port, () => {
   console.log(`Server is live at port ${port}`);
 });
 
 // TODO: add endpoints for differing sorting methods and modify the query accordingly.
 //    (Maybe use a variable to keep one endpoint and have it be set by the req.body?)
-//
-// TODO: set up deletion handling
