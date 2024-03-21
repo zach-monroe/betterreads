@@ -2,6 +2,7 @@ import express from "express";
 import pg from "pg";
 import bodyParser from "body-parser";
 import axios from "axios";
+import { password } from "./config.js";
 
 const app = express();
 const port = 3000;
@@ -13,7 +14,7 @@ const db = new pg.Client({
   host: "localhost",
   database: "books",
   user: "postgres",
-  password: "poop",
+  password,
   port: 5432,
 });
 
@@ -104,4 +105,3 @@ app.listen(port, () => {
 //    (Maybe use a variable to keep one endpoint and have it be set by the req.body?)
 //
 // TODO: set up deletion handling
-// TODO: set up a put request for editing a post. (Might need to make a hidden html element that stores the id for editing and deleting.)
