@@ -21,10 +21,24 @@ const db = new pg.Client({
 db.connect();
 
 app.get("/", async (req, res) => {
-  const result = await db.query(
-    "SELECT * FROM read INNER JOIN isbn ON read.id = isbn.book_id",
-  );
-  console.log(result.rows);
+  let result;
+
+  if (req.query.q) {
+    if (req.query.q == "rating") {
+      result = await db.query(
+        "SELECT * FROM read INNER JOIN isbn ON read.id = isbn.book_id ORDER BY rating DESC",
+      );
+    } else if (req.query.q == "author") {
+      result = await db.query(
+        "SELECT * FROM read INNER JOIN isbn ON read.id = isbn.book_id ORDER BY author_lname",
+      );
+    }
+  } else {
+    result = await db.query(
+      "SELECT * FROM read INNER JOIN isbn ON read.id = isbn.book_id",
+    );
+  }
+
   const books = result.rows;
   res.render("index.ejs", { books: books });
 });
@@ -95,6 +109,31 @@ app.post("/edit", async (req, res) => {
   const books = result.rows;
   console.log(books);
   res.render("new.ejs", { books: books });
+});
+
+app.post("/update", async (req, res) => {
+  const title = req.body.title;
+  const notes = req.body.notes;
+  const author_fname = req.body.author_fname;
+  const author_lname = req.body.author_lname;
+  const rating = req.body.rating;
+  const id = req.body.id;
+
+  try {
+    const readResult = await db.query(
+      "UPDATE read SET author_lname = $1, title = $2, notes = $3, rating = $4, author_fname = $5 WHERE id = $6",
+      [author_lname, title, notes, rating, author_fname, id],
+    );
+  } catch (err) {
+    console.log(err.body);
+  }
+
+  res.redirect("/");
+
+  res.render("new.ejs", {
+    books: [req.body],
+    error: "Cannot find your entry!",
+  });
 });
 
 app.post("/delete", async (req, res) => {

@@ -1,6 +1,6 @@
 <%- include("partials/header.ejs") %>
 <div>
-    <form action="/add" method="POST">
+  <form <% if (locals.books) {%> action="update" <% } else { %> action="/add" <% } %> method="POST">
         <input type="text" name="author_fname" placeholder="John" value=<%= locals.books ? locals.books[0].author_fname : '' %>>
         <label for="author_fname">Author First Name</label>
         <input type="text" name="author_lname" placeholder="Smith" value=<%= locals.books ? locals.books[0].author_lname : '' %>>
@@ -17,6 +17,7 @@
         <div>
             <label for="rating">Rating</label>
         </div>
+    <% if (locals.books) { %><input type="hidden" value=<%= locals.books[0].id %> name="id"> <%}%>
         <input type="submit" name="submit">
     </form>
 </div>
