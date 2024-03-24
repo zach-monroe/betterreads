@@ -98,7 +98,7 @@ app.post("/add", async (req, res) => {
 });
 
 // NOTE: to fully optimize - "/add" functions should be broken up into individual functions.
-//
+// this would also tidy up the "/update" endpoint
 
 app.post("/edit", async (req, res) => {
   const id = req.body.bookId;
@@ -153,5 +153,7 @@ app.listen(port, () => {
   console.log(`Server is live at port ${port}`);
 });
 
-// TODO: add endpoints for differing sorting methods and modify the query accordingly.
-//    (Maybe use a variable to keep one endpoint and have it be set by the req.body?)
+// TODO: Add styling and layout
+// TODO: Give users the option to change their isbn number if they dislike the rendered picture?
+//  (maybe an advanced settings dropdown that allows users to add isbn numbers on the "/edit" path?)
+//  this functionality should be available if the ISBN information cannot be found on the database as well.
