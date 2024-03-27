@@ -1,0 +1,5 @@
+Highlight components (replicates a book with turning pages):
+https://github.com/Nodlik/react-pageflip/blob/HEAD/video.gif
+
+
+https://nodlik.github.io/react-pageflip/

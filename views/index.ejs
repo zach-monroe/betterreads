@@ -18,12 +18,13 @@
       <h3><%= books[i].notes%></h3>
       <h3><%= books[i].rating%></h3>
     </div>
-  <form method="POST" action="/edit">
+  <form method="POST" action="/edit" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
     <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
     <input type="submit" value="Edit"></form>
-  <form method="POST" action="/delete">
+    <br>
+  <form method="POST" action="/delete" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
     <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
-    <input type="submit" value="delete"></form>
+    <input type="submit" value="Delete"></form>
   </div>
 
   <%}%>
@@ -31,7 +32,9 @@
 </div>
 
 </main>
-<!--TODO: Format the data to present well tailwind--
-TODO: Add sorting links-->
+<!--
+TODO: Format the data to present well tailwind--
+TODO: Add sorting links
+TODO: Separate the float class stuff into a separate script.js file. use the id function and label them using the i variable-->
 
 <%- include("partials/footer.ejs") %>
