@@ -11,7 +11,20 @@ export default {
     container: {
       center: true,
     },
-    extend: {},
+    extend: {
+      colors: {
+        sumiInk: "#1F1F28",
+        samuraiRed: "#E82424",
+        roninYellow: "#FF9E3B",
+        oldWhite: "#e9e4d3",
+        notGray: "#c8c093",
+      },
+      fontFamily: {
+        deca: ["Lexend Deca"],
+        moda: ["Bodoni Moda"],
+        tenor: ["Tenor Sans"],
+      },
+    },
   },
   plugins: [],
 };

@@ -1,21 +1,24 @@
 <%- include("partials/header.ejs") %>
 <main>
 
-<div class="container px-20">
-<a href="/?q=rating">Rating</a>
-<a href="/?q=author">Author</a>
-<a href="/">Added</a>
 
+
+<div class="container mx-auto px-52">
+  <div class="flex items-center pt-5">
+    <a class="mr-4"  href="/?q=rating">Rating</a>
+    <a class="mr-4" href="/?q=author">Author</a>
+    <a class="mr-4" href="/">Added</a>
+    </div>
 
 <% for (var i = 0; i < books.length; i++) { %> 
-  <div class="clear-both py-16">
+  <div class="clear-both py-12">
       <div <% if (i % 2 === 0) { %> class="float-left" <%} else { %> class="float-right" <% } %>>
       <img  class= "rounded" src= <%="https://covers.openlibrary.org/b/isbn/" + JSON.parse(books[i].book_isbn) + "-M.jpg" %> >
     </div>
     <div <% if (i % 2 === 0) { %> class="text-right" <%} else { %> class="text-left" <% } %>>
-      <h3><%= books[i].title%></h3>
-      <h3><%= books[i].author%></h3>
-      <h3><%= books[i].notes%></h3>
+      <h3 class="font-tenor text-2xl"><%= books[i].title%></h3>
+      <h3 class="text-notGray text-sm italic"><%= books[i].author_lname%>, <%= books[i].author_fname%></h3>
+      <h3 class="text-notGray text-lg"><%= books[i].notes%></h3>
       <h3><%= books[i].rating%></h3>
     </div>
   <form method="POST" action="/edit" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
