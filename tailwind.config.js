@@ -14,6 +14,7 @@ export default {
     extend: {
       colors: {
         sumiInk: "#1F1F28",
+        sumiInk3: "#363646",
         samuraiRed: "#E82424",
         roninYellow: "#FF9E3B",
         oldWhite: "#e9e4d3",

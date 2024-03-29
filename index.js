@@ -129,11 +129,6 @@ app.post("/update", async (req, res) => {
   }
 
   res.redirect("/");
-
-  res.render("new.ejs", {
-    books: [req.body],
-    error: "Cannot find your entry!",
-  });
 });
 
 app.post("/delete", async (req, res) => {
