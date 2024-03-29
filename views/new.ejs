@@ -1,13 +1,13 @@
 <%- include("partials/header.ejs") %>
-<div>
+<div class="flex mx-auto justify-center py-8">
   <form class="w-fall max-w-lg"<% if (locals.books) {%> action="update" <% } else { %> action="/add" <% } %> method="POST">
-        <input type="text" name="author_fname" placeholder="John" value=<%= locals.books ? locals.books[0].author_fname : '' %>>
+        <input class="text-gray-800 mb-4 rounded"type="text" name="author_fname" placeholder="John" value=<%= locals.books ? locals.books[0].author_fname : '' %>>
         <label for="author_fname">Author First Name</label>
-        <input type="text" name="author_lname" placeholder="Smith" value=<%= locals.books ? locals.books[0].author_lname : '' %>>
+        <input class="text-gray-800 mb-4 rounded" type="text" name="author_lname" placeholder="Smith" value=<%= locals.books ? locals.books[0].author_lname : '' %>>
         <label for="author_lname">Author Last Name</label>
-        <input type="text" name="title" placeholder="A Fantastic Book" value=<%= locals.books ? locals.books[0].title : '' %>>
+        <input class="text-gray-800 mb-4 rounded" type="text" name="title" placeholder="A Fantastic Book" value=<%= locals.books ? locals.books[0].title : '' %>>
         <label for="title">Book Title</label>
-        <textarea rows="5" cols="33" name="notes"><%= locals.books ? locals.books[0].notes : 'Put your notes here!' %></textarea>
+        <textarea class="text-gray-800 rounded"rows="5" cols="42" name="notes"><%= locals.books ? locals.books[0].notes : 'Put your notes here!' %></textarea>
         <div class="rating">
             <% for (let i = 5; i >= 1; i--) { %>
                 <input type="radio" id="star<%= i %>" name="rating" value="<%= i %>" <%= locals.books && locals.books[0].rating == i ? 'checked' : '' %>>
@@ -18,8 +18,11 @@
             <label for="rating">Rating</label>
         </div>
     <% if (locals.books) { %><input type="hidden" value=<%= locals.books[0].id %> name="id"> <%}%>
-        <input type="submit" name="submit" value="Submit">
-    </form>
+     
+        <input class="btn px-2 bg-samuraiRed my-4 hover:bg-oldWhite hover:text-samuraiRed transition ease-out duration-200" type="submit" name="submit" value="Submit">
+        
+  </form>
+
 </div>
 
 <% if (locals.error) {%>

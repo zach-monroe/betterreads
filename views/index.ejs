@@ -4,35 +4,41 @@
 
 
 <div class="container mx-auto px-52">
-  <div class="flex items-center pt-5">
-    <a class="mr-4"  href="/?q=rating">Rating</a>
+  <div class="flex items-center pt-5" >
+    <h2 class="mr-4"><a href="/?q=rating">Rating</a></h2>
     <a class="mr-4" href="/?q=author">Author</a>
     <a class="mr-4" href="/">Added</a>
-    </div>
+</div>
 
 <% for (var i = 0; i < books.length; i++) { %> 
-  <div class="clear-both py-12">
+  <div class="clear-both py-8" >
       <div <% if (i % 2 === 0) { %> class="float-left" <%} else { %> class="float-right" <% } %>>
       <img  class= "rounded" src= <%="https://covers.openlibrary.org/b/isbn/" + JSON.parse(books[i].book_isbn) + "-M.jpg" %> >
     </div>
+
     <div <% if (i % 2 === 0) { %> class="text-right" <%} else { %> class="text-left" <% } %>>
       <h3 class="font-tenor text-2xl"><%= books[i].title%></h3>
       <h3 class="text-notGray text-sm italic"><%= books[i].author_lname%>, <%= books[i].author_fname%></h3>
       <h3 class="text-notGray text-lg"><%= books[i].notes%></h3>
       <h3><%= books[i].rating%></h3>
     </div>
-  <form method="POST" action="/edit" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
+      <% if (i % 2 === 0) { %>
+      <div class="flex justify-end mt-4"> 
+        <% } else {%> 
+          <div class="flex justify-start mt-4">
+        <% } %>
+    <form method="POST" action="/edit" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
     <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
-    <input type="submit" value="Edit"></form>
-    <br>
+    <input class="btn mr-4 bg-sumiInk border border-oldWhite border-2 px-4 hover:bg-oldWhite hover:text-samuraiRed transform hover:scale-125 transition ease-linear duration-200"type="submit" value="Edit"></form>
   <form method="POST" action="/delete" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
     <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
-    <input type="submit" value="Delete"></form>
+    <input class="btn bg-samuraiRed px-2 hover:border-2 hover:bg-sumiInk hover:border-oldWhite transform hover:scale-125 transition ease-linear duration-200"type="submit" value="Delete"></form>
+    </div>
+
   </div>
 
   <%}%>
 
-</div>
 
 </main>
 <!--
