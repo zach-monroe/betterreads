@@ -152,3 +152,8 @@ app.listen(port, () => {
 // TODO: Give users the option to change their isbn number if they dislike the rendered picture?
 //  (maybe an advanced settings dropdown that allows users to add isbn numbers on the "/edit" path?)
 //  this functionality should be available if the ISBN information cannot be found on the database as well.
+//
+//
+//  TODO: Turn ratings into stars using react
+//  FIX:  Solve edgecase where book cover doesn't render
+//  TODO: Animate users highlights as a book when you click on the cover
