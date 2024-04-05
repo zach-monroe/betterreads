@@ -22,7 +22,7 @@ db.connect();
 
 app.get("/", async (req, res) => {
   let result;
-
+  //allows users to sort by the query params.
   if (req.query.q) {
     if (req.query.q == "rating") {
       result = await db.query(
@@ -47,6 +47,7 @@ app.get("/new", async (req, res) => {
   res.render("new.ejs");
 });
 
+//endpoint for validating and submitting the user added input.
 app.post("/add", async (req, res) => {
   console.log(req.body);
   //For adding the users input into the database
@@ -67,20 +68,25 @@ app.post("/add", async (req, res) => {
   );
   const isbnResult = isbnGet.data;
 
+  //validates if the isbn exists - if it does not it redirects to an error message.
   if (
     isbnResult.docs &&
     isbnResult.docs.length > 0 &&
     isbnResult.docs[0].isbn
   ) {
     const isbn = JSON.parse(isbnResult.docs[0].isbn[0]);
+
+    //posting the information to the database.  It is placed here so users can't add their input unless it gets a valid isbn number.
     try {
       const readResult = await db.query(
         "INSERT INTO read (author_lname, title, notes, rating, author_fname) VALUES ($1, $2, $3, $4, $5) RETURNING (id)",
         [author_lname, title, notes, rating, author_fname],
       );
 
+      //gets the id from the post to "read" table and connect with the "isbn" table
       const id = readResult.rows[0].id;
 
+      //posts the isbn number and the book id to the "isbn" table
       const isbnPost = await db.query(
         "INSERT INTO isbn (book_id, book_isbn) VALUES ($1, $2)",
         [id, isbn],
@@ -90,6 +96,7 @@ app.post("/add", async (req, res) => {
     }
     res.redirect("/");
   } else {
+    //allows users to edit their input until it is a valid entry.
     res.render("new.ejs", {
       books: [req.body],
       error: "Cannot find your entry!",
@@ -100,6 +107,7 @@ app.post("/add", async (req, res) => {
 // NOTE: to fully optimize - "/add" functions should be broken up into individual functions.
 // this would also tidy up the "/update" endpoint
 
+//endpoint that renders user data in the field
 app.post("/edit", async (req, res) => {
   const id = req.body.bookId;
   const result = await db.query(
@@ -111,6 +119,7 @@ app.post("/edit", async (req, res) => {
   res.render("new.ejs", { books: books });
 });
 
+//endpoint for submitting a users edits.
 app.post("/update", async (req, res) => {
   const title = req.body.title;
   const notes = req.body.notes;
@@ -131,6 +140,7 @@ app.post("/update", async (req, res) => {
   res.redirect("/");
 });
 
+//allows users to delete entries
 app.post("/delete", async (req, res) => {
   const id = req.body.bookId;
   try {
@@ -152,8 +162,14 @@ app.listen(port, () => {
 // TODO: Give users the option to change their isbn number if they dislike the rendered picture?
 //  (maybe an advanced settings dropdown that allows users to add isbn numbers on the "/edit" path?)
 //  this functionality should be available if the ISBN information cannot be found on the database as well.
+//TODO: drop down menu for sorting
 //
+//TODO: Drop down menu for ISBN input
 //
 //  TODO: Turn ratings into stars using react
+
 //  FIX:  Solve edgecase where book cover doesn't render
+//
+////// HACK: can solve by having a button render on the edit screen that allows users to iterate through the different covers? Or an input to add your own isbn?
+
 //  TODO: Animate users highlights as a book when you click on the cover
