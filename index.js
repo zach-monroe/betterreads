@@ -74,7 +74,7 @@ app.post("/add", async (req, res) => {
     isbnResult.docs.length > 0 &&
     isbnResult.docs[0].isbn
   ) {
-    const isbn = JSON.parse(isbnResult.docs[0].isbn[0]);
+    const isbn = parseInt(isbnResult.docs[0].isbn[0]);
 
     //posting the information to the database.  It is placed here so users can't add their input unless it gets a valid isbn number.
     try {

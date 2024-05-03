@@ -13,7 +13,8 @@
 <% for (var i = 0; i < books.length; i++) { %> 
   <div class="clear-both py-8" >
       <div <% if (i % 2 === 0) { %> class="float-left" <%} else { %> class="float-right" <% } %>>
-      <img  class= "rounded" src= <%="https://covers.openlibrary.org/b/isbn/" + JSON.parse(books[i].book_isbn) + "-M.jpg" %> >
+      <img  class= "rounded" src= <%="https://covers.openlibrary.org/b/isbn/" + books[i].book_isbn + "-M.jpg" %> >
+
     </div>
 
     <div <% if (i % 2 === 0) { %> class="text-right" <%} else { %> class="text-left" <% } %>>
@@ -28,10 +29,10 @@
           <div class="flex justify-start mt-4">
         <% } %>
     <form method="POST" action="/edit" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
-    <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
+    <input type="hidden" name="bookId" value=<%= JSON.stringify(books[i].id) %>>
     <input class="btn mr-4 bg-sumiInk border border-oldWhite border-2 px-4 hover:bg-oldWhite hover:text-samuraiRed transform hover:scale-125 transition ease-linear duration-200"type="submit" value="Edit"></form>
   <form method="POST" action="/delete" <% if (i % 2 === 0) { %> class="float-right" <%} else { %> class="float-left" <% } %>>
-    <input type="hidden" name="bookId" value=<%= JSON.parse(books[i].id) %>>
+    <input type="hidden" name="bookId" value=<%= JSON.stringify(books[i].id) %>>
     <input class="btn bg-samuraiRed px-2 hover:border-2 hover:bg-sumiInk hover:border-oldWhite transform hover:scale-125 transition ease-linear duration-200"type="submit" value="Delete"></form>
     </div>
 
