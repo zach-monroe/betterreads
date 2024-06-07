@@ -1,3 +1,4 @@
+# Better Reads 1.0
 This was my original attempt at better reads.
 
 This used server-side rendering and ejs tags to accomplish basic CRUD functionality.  I wanted to refactor this to be a more robust web app with:
